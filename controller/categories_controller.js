@@ -1,5 +1,6 @@
 const db = require('../models');
 const Categories = db.Categories;
+const Product=db.Product
 
 const getCategory = async (req, res) => {
     try {
@@ -51,17 +52,27 @@ const getCategory = async (req, res) => {
     })
 }
 
-  const deleteCategory = async (req, res) => {
+const deleteCategory = async (req, res) => {
     try {
-      const rowsDeleted = await Categories.destroy({ where: { id: req.params.id } });
+      const categoryId = req.params.id;
+  
+      // Находим все продукты, связанные с заданной категорией
+      const productsToDelete = await Product.findAll({ where: { categoryId } });
+  
+      // Удаляем найденные продукты
+      await Product.destroy({ where: { categoryId } });
+  
+      // Удаляем саму категорию
+      const rowsDeleted = await Categories.destroy({ where: { id: categoryId } });
+  
       if (rowsDeleted) {
         res.sendStatus(204);
       } else {
-        res.status(404).json({ error});
+        res.status(404).json({ error: 'Категория не найдена' });
       }
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Server error' });
-      }
-    };
+      console.error(error);
+      res.status(500).json({ error: 'Ошибка сервера' });
+    }
+  };
     module.exports={getCategory, createCategory, getCategoryById, deleteCategory,updateCategory}

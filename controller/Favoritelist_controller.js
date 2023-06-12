@@ -8,15 +8,47 @@ const Users=db.Users
 const createFavoriteList = async (req, res) => {
     try {
       const userId = req.body.userId;
-      const favorite = await Favorite.create({ userId });
-      console.log('Создана новая запись в модели Favorite:', favorite);
-      res.status(200).json({ message: 'favoritelist успешно создана', favorite });
+  
+      // Проверка, существует ли список избранного для данного пользователя
+      const existingFavoriteList = await Favorite.findOne({ where: { userId } });
+      if (existingFavoriteList) {
+        console.log('У данного пользователя уже есть список избранного:', existingFavoriteList);
+        return res.status(200).json({ message: 'Список избранного уже существует', favoriteList: existingFavoriteList });
+      }
+  
+      // Создание нового списка избранного
+      const favoriteList = await Favorite.create({ userId });
+      console.log('Создана новая запись в модели Favorite:', favoriteList);
+      res.status(200).json({ message: 'Список избранного успешно создан', favoriteList });
     } catch (error) {
-      console.error('Ошибка при создании записи в модели favoritelist:', error);
-      res.status(500).json({ message: 'Произошла ошибка при создании favoritelist' });
+      console.error('Ошибка при создании записи в модели Favorite:', error);
+      res.status(500).json({ message: 'Произошла ошибка при создании списка избранного' });
     }
   };
 
+  const deleteFavoritelist = async (req, res) => {
+    try {
+      const favoriteId = req.params.id;
+  
+      // Поиск всех записей в таблице favoriteItems, связанных с заданным favoriteId
+      const favoriteItemsToDelete = await FavoriteItem.findAll({ where: { favoriteId } });
+  
+      // Удаление найденных записей из таблицы favoriteItems
+      await FavoriteItem.destroy({ where: { favoriteId } });
+  
+      // Удаление самого списка избранного (FavoriteList)
+      const rowsDeleted = await Favorite.destroy({ where: { id: favoriteId } });
+  
+      if (rowsDeleted) {
+        res.sendStatus(204);
+      } else {
+        res.status(404).json({ error: 'Список избранного не найден' });
+      }
+    } catch (error) {
+      console.error('Ошибка при удалении списка избранного:', error);
+      res.status(500).json({ message: 'Произошла ошибка при удалении списка избранного' });
+    }
+  };
   const getFavoriteList = async (req, res) => {
     try {
       const { userId } = req.query;
@@ -85,4 +117,4 @@ const createFavoriteList = async (req, res) => {
   };
 
 
-  module.exports={createFavoriteList, addToFavoritelist,getFavoriteList,removeFromFavorite}
+  module.exports={createFavoriteList, addToFavoritelist,getFavoriteList,removeFromFavorite,deleteFavoritelist}
