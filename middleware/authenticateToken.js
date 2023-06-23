@@ -1,23 +1,18 @@
-const jwt = require("jsonwebtoken");
+const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const SECRET = process.env.SECRET;
+
+
 require('dotenv').config()
+const SECRET = process.env.SECRET
 
-function authenticateToken(req, res, next){
-    const token= req.headers.authorization
-    if(token ==  null){
-        return res.sendStatus(401)
-    }
-    jwt.verify(token, SECRET, (err, user)=>{
-        if(err){
-            return res.sendStatus(403)
-
-        }
-        if(user.role !== 'admin'){
-            return res.sendStatus(403)
-        }
-        req.user = user
-        next()
+function authenticateToken(req, res, next) {
+    const token = req.headers.authorization
+    console.log(token);
+    if (token == null) return res.sendStatus(401) 
+  
+    jwt.verify(token, SECRET, (err, user) => {
+      if (err) return res.sendStatus(403) 
+      next()
     })
-}
-module.exports={authenticateToken}
+  }
+  module.exports={authenticateToken}

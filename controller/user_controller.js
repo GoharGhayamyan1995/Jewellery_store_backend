@@ -51,7 +51,7 @@ function generateAccessToken(email,role,id,is_verified) {
         is_verified: 0
       });
   
-      let token = generateAccessToken(email,data.id, 0);
+      let token = generateAccessToken(email,newUser.id, 0);
       send_mail(email, token);
   
       res.status(201).json({ message: 'Registration successful' });
@@ -65,7 +65,6 @@ function generateAccessToken(email,role,id,is_verified) {
     async function login(req, res){
         const email = req.body.email;
         const password = req.body.password;
-        const role = req.body.role;
         const { error } = loginValidator(req.body);
            if (error) {
     return res.status(400).json({error:error.message});

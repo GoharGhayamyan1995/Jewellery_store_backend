@@ -19,6 +19,7 @@ const latestProducts_routes=require('./routes/LatestProducts_routes');
 const searchProducts_routes = require('./routes/searchProduct_routes');
 const cartProducts_routes=require('./routes/cartProducts_routes')
 const favoriteItems_routes=require('./routes/favoriteItems_routes')
+const orders_routes=require('./routes/orders_routes')
 
 // Разрешить приложению парсить JSON и urlencoded данные
 app.use(bodyParser.json());
@@ -33,6 +34,7 @@ latestProducts_routes.create_latestProducts_routes(app)
 searchProducts_routes.create_searchProducts_routes(app)
 cartProducts_routes.create_cartProducts_routes(app)
 favoriteItems_routes.create_favoriteItems_routes(app)
+orders_routes.create_orders_routes(app)
 
 sequelize.authenticate()
   .then(() => {

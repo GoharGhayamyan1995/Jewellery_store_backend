@@ -40,7 +40,7 @@ async function get_favoriteItems(req, res) {
           productId,
         });
       } else {
-        return res.json('product uje naxoditsya v favoritelist');
+        return res.json({message:'product uje naxoditsya v favoritelist'});
       }
       res.status(200).json({ message: 'favoritelist and favorite item created successfully' });
     } catch (error) {

@@ -75,48 +75,29 @@ async function getProduct(req, res) {
   };
   
   async function createProduct(req, res) {
-    const image = `uploads/products/${req.file.filename}`;
-    // const image=req.file.originalname
-    const { name, price,description,metal,size,quantity, categoryId } = req.body;
-   
-    console.log(name,description)
-    console.log(req)
-    try {
+     try {
+       const image = `uploads/products/${req.file.filename}`;
+          const { name, price,description, metal, size, quantity, categoryId } = req.body;
     
-      const product = await Product.create({ name, price,image,description,metal,size,quantity,categoryId });
+      const product = await Product.create({
+        name: name,
+        price: price,
+        image: image,
+        description: description,
+        metal: metal,
+        size: size,
+        quantity: quantity,
+        categoryId: categoryId
+      });
+    
       res.json(product);
     } catch (err) {
       console.error(err);
-      res.status(500).json({ message: 'Server Error' });
+      res.status(500).json({ message: 'Ошибка сервера' });
     }
   }
-  
-  // async function createProduct(req, res) {
-  //   const image = `uploads/products/${req.file.filename}`;
-  //   const { name, price, description, metal, size, quantity, categoryId } = req.body;
-  
-  //   try {
-  //     const product = await Product.create({
-  //       name,
-  //       price,
-  //       image,
-  //       description,
-  //       metal,
-  //       size,
-  //       quantity,
-  //       categoryId
-  //     });
-  
-  //     const createdProduct = await Product.findByPk(product.id, {
-  //       include: [{ model: Categories, attributes: ['name'] }],
-  //     });
-  
-  //     res.json(createdProduct);
-  //   } catch (err) {
-  //     console.error(err);
-  //     res.status(500).json({ message: 'Ошибка сервера' });
-  //   }
-  // }
+ 
+ 
     async function getProductById(req, res) {
       const { id } = req.params;
       try {
