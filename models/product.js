@@ -11,16 +11,9 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       Product.belongsTo(models.Categories)
-      // Product.belongsToMany(models.Cart,{through:models.CartProducts})
-      // Product.belongsToMany(models.Cart, {
-      //   through: models.CartProducts,
-      //   foreignKey: 'productId', // Укажите правильное имя поля для связи с моделью CartProducts
-      // });
+    
       Product.hasMany(models.CartProducts)
-      // Product.belongsToMany(models.Users, { through: 'Favorite' })
-      // Product.belongsToMany(models.Cart,{through:'CartProducts'})
-
-      // define association here
+    
     }
   }
   Product.init({

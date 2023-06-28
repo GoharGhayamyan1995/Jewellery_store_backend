@@ -19,7 +19,6 @@ async function placeOrder(req, res) {
       const price = product.price;
       totalAmount += price * quantity[i];
     }
-    // Create the order
     const order = await Order.create({
       userId,
       totalAmount,
@@ -28,7 +27,6 @@ async function placeOrder(req, res) {
       paymentCard: paymentCardNumber
     });
 
-    // Create order products and remove them from the cart
     for (let i = 0; i < cartProducts.length; i++) {
       const cartProduct = cartProducts[i];
       await OrderProducts.create({

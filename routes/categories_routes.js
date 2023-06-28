@@ -1,5 +1,4 @@
 const categories_controller = require('../controller/categories_controller')
-// const authenticate=require('../controller/user_controller')
 const checkAdmin=require('../middleware/checkadmin')
 
 function create_categories_routes(app){

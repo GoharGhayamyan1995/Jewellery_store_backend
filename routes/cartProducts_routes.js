@@ -1,7 +1,6 @@
 const cartProduct_controller = require('../controller/cartProduct_controller');
 const authenticateToken=require('../middleware/authenticateToken')
 
-// Маршруты корзины
 function create_cartProducts_routes(app){
 app.post('/cartproduct',authenticateToken.authenticateToken, cartProduct_controller.cartAndcartProduct);
 app.get("/cartProduct/:id", cartProduct_controller.get_cartProducts);

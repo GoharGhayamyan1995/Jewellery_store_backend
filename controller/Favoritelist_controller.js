@@ -1,5 +1,4 @@
 const db = require('../models');
-// const { Cart, CartProducts, Product } = require('../models');
 const Favorite=db.Favorite
 const FavoriteItem=db.FavoriteItem
 
@@ -10,13 +9,10 @@ const FavoriteItem=db.FavoriteItem
     try {
       const favoriteId = req.params.id;
   
-      // Поиск всех записей в таблице favoriteItems, связанных с заданным favoriteId
       const favoriteItemsToDelete = await FavoriteItem.findAll({ where: { favoriteId } });
   
-      // Удаление найденных записей из таблицы favoriteItems
       await FavoriteItem.destroy({ where: { favoriteId } });
   
-      // Удаление самого списка избранного (FavoriteList)
       const rowsDeleted = await Favorite.destroy({ where: { id: favoriteId } });
   
       if (rowsDeleted) {
@@ -29,10 +25,11 @@ const FavoriteItem=db.FavoriteItem
       res.status(500).json({ message: 'Произошла ошибка при удалении списка избранного' });
     }
   };
+
   const getFavoriteList = async (req, res) => {
     try {
       // const { userId } = req.query;
-      const favoritelist = await FavoriteItem.findAll()
+      const favoritelist = await Favorite.findAll()
   
       res.json(favoritelist);
     } catch (error) {

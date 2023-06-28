@@ -5,7 +5,7 @@ const getLatestProducts = async (req, res) => {
     try {
       const latestProducts = await Product.findAll({
         order: [['createdAt', 'DESC']],
-        limit: 4, // Укажите количество последних продуктов, которые вы хотите получить
+        limit: 4, 
       });
   
       res.status(200).json({ latestProducts });

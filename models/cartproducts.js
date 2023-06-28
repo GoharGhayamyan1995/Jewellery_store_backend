@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       CartProducts.belongsTo(models.Product, {foreignKey:'productId'});
       CartProducts.belongsTo(models.Cart, {
-        foreignKey: 'cartId', // Укажите другое имя поля для связи с моделью Cart
+        foreignKey: 'cartId', 
       });
 
    
